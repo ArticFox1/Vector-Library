@@ -349,23 +349,29 @@ const vecProto = {x:0,y:0,z:0,w:0,type:4,
                   get wwww() {return vec4(this.w??0,this.w??0,this.w??0,this.w??0)},
                   }
 function vector(x,y,z,w,type) {
-  return Object.defineProperties(Object.create(vecProto),{x:{value:x,writable:(x!=null)},y:{value:y,writable:(y!=null)},z:{value:z,writable:(z!=null)},w:{value:w,writable:(w!=null)},type:{value:type,writable:false}})
+  return Object.defineProperties(Object.create(vecProto),
+                                {x:{value:x,writable:true},
+                                y:{value:y,writable:true},
+                                z:{value:z,writable:(z!=null)},
+                                w:{value:w,writable:(w!=null)},
+                                type:{value:type,writable:false}}
+                                )
 }
 function vec2(x=0,y=x) {
   console.log()
-  if (x.prototype===vecProto) {
+  if (x.type) {
     return vector(x.x,x.y,null,null,2)
   }
   return vector(x,y,null,null,2)
 }
 function vec3(x=0,y=x,z=y) {
-  if (x.prototype===vecProto) {
+  if (x.type) {
     return vector(x.x,x.y,x.z,null,3)
   }
   return vector(x,y,z,null,3)
 }
 function vec4(x=0,y=x,z=y,w=z) {
-  if (x.prototype===vecProto) {
+  if (x.type) {
     return vector(x.x,x.y,x.z,x.w,4)
   }
   return vector(x,y,z,w,4)
