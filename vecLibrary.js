@@ -422,7 +422,7 @@ function div(a,b) {
                               (av.w??(bv.z*bv.z))/(bv.w??1))
 }
 a=vec2(2,6)
-div(3,2)
-div(a,vec3(4,8,5)).toString()
+console.log(div(3,2))
+console.log(div(a,vec3(4,8,5)))
 console.log(a)
 a.toString()
