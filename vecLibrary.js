@@ -403,29 +403,52 @@ function sub(a,b) {
                                                     a.w-b.w)
 }
 function mul(a,b) {
-  const max = (a.type>b.type?a.type:b.type)-2
-  const av = (typeof a=="number")?[vec2,vec3,vec4][max](a):a
-  const bv = (typeof b=="number")?[vec2,vec3,vec4][max](b):b
-  return (typeof a=="number"&&typeof b=="number")?
-    a*b:
-  [vec2,vec3,vec4][max](av.x*bv.x,
-                        av.y*bv.y,
-                        (av.z??1)*(bv.z??1),
-                        (av.w??1)*(bv.w??1))
-}
-function div(a,b) {
-  const max = (a.type>b.type?a.type:b.type)-2
   const ta=typeof a
   const tb=typeof b
-  if (ta=="number"&&tb=="number") {
-    return a/b
-  }
+  if (ta=="number"&&tb=="number") return a*b
   const av = (typeof a=="number")?[vec2,vec3,vec4][max](a):a
   const bv = (typeof b=="number")?[vec2,vec3,vec4][max](b):b
-  return [vec2,vec3,vec4][max](av.x/bv.x,
-                              av.y/bv.y,
-                              (av.z??(bv.z*bv.z))/(bv.z??1),
-                              (av.w??(bv.z*bv.z))/(bv.w??1))
+  const max = (a.type>b.type?a.type:b.type)-2
+  function mul2(m,n) {
+    return vec2(m.x*n.x,
+                m.y*n.y)
+  }
+  function mul3(m,n) {
+    return vec3(m.x*n.x,
+                m.y*n.y,
+                (m.z??1)*(n.z??1))
+  }
+  function mul4(m,n) {
+    return vec4(m.x*n.x,
+                m.y*n.y,
+                (m.z??1)*(n.z??1),
+                (m.w??1)*(n.w??1))
+  }
+  return [mul2,mul3,mul4][max](av,bv)
+}
+function div(a,b) {
+  const ta=typeof a
+  const tb=typeof b
+  if (ta=="number"&&tb=="number") return a/b
+  const av = (typeof a=="number")?[vec2,vec3,vec4][max](a):a
+  const bv = (typeof b=="number")?[vec2,vec3,vec4][max](b):b
+  const max = (a.type>b.type?a.type:b.type)-2
+  function div2(m,n) {
+    return vec2(m.x/n.x,
+                m.y/n.y)
+  }
+  function div3(m,n) {
+    return vec3(m.x/n.x,
+                m.y/n.y,
+                (m.z??(n.z*n.z))/(n.z??1))
+  }
+  function div4(m,n) {
+    return vec4(m.x/n.x,
+                m.y/n.y,
+                (m.z??(n.z*n.z))/(n.z??1),
+                (m.w??(n.z*n.z))/(n.w??1))
+  }
+  return [mul2,mul3,mul4][max](av,bv)
 }
 a=vec2(2,6)
 console.log(div(3,2))
