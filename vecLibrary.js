@@ -349,13 +349,12 @@ const vecProto = {x:0,y:0,z:0,w:0,type:4,
                   get wwww() {return vec4(this.w??0,this.w??0,this.w??0,this.w??0)},
                   }
 function vector(x,y,z,w,type) {
-  return Object.defineProperties(Object.create(vecProto),
-                                {x:{value:x,writable:true},
-                                y:{value:y,writable:true},
-                                z:{value:z,writable:(z!=null)},
-                                w:{value:w,writable:(w!=null)},
-                                type:{value:type,writable:false}}
-                                )
+  return Object.create(vecProto,
+                      {x:{value:x,writable:true},
+                      y:{value:y,writable:true},
+                      z:{value:z,writable:(z!=null)},
+                      w:{value:w,writable:(w!=null)},
+                      type:{value:type,writable:false}})
 }
 function vec2(x=0,y=x) {
   console.log()
@@ -448,10 +447,9 @@ function div(a,b) {
                 (m.z??(n.z*n.z))/(n.z??1),
                 (m.w??(n.z*n.z))/(n.w??1))
   }
-  return [mul2,mul3,mul4][max](av,bv)
+  return [div2,div3,div4][max](av,bv)
 }
 a=vec2(2,6)
 console.log(div(3,2))
-console.log(div(a,vec3(4,8,5)))
-console.log(a)
-a.toString()
+console.log(div(a,vec3(4,8,5)).toString())
+console.log(a.toString())
